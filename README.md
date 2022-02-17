@@ -26,4 +26,4 @@ npm run start
 - sql is to hold any table or view creations/updates
 
 This gives us an opportunity to do migration/seeding in the future if needed to and ensures our table and view creation is the same.
-Since table and view creations are 1 time run keeping them separate from endpoints keeps thins organized.
+Since table and view creations are 1 time run keeping them separate from endpoints keeps things organized.
