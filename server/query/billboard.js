@@ -5,7 +5,7 @@ const Joi = require("joi");
 
 module.exports = {
   async fetchById(id) {
-    const billboard = await db.query(`SELECT * FROM billboards WHERE billboard_id = '${id}'`);
+    const billboard = await db.query(`SELECT * FROM billboards WHERE id = '${id}'`);
     return billboard;
   },
 
