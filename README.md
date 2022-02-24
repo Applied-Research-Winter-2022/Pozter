@@ -4,7 +4,6 @@ Link Jira ticket:
 https://jess-nguy.atlassian.net/browse/POZ-9
 
 Author Notes:
-In your own words, what does this code change accomplish?
 it's a frontend boilerplate for the team to build on.
 
 Impacts and Notes:
