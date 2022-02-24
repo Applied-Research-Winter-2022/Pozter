@@ -24,7 +24,7 @@ Add Vitest: No
 Add Cypress: No
 Add ESLint: Yes
 Add Prettier: Yes
-Shout to Joe: Yes
+Shout out to Joe: Yes
 
 Author Checklist:
  Tested locally.
