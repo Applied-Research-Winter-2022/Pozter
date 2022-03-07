@@ -1,22 +1,18 @@
 <template>
   <div class="home">
-      <h1>testing home view </h1>
+    <img alt="Vue logo" src="../assets/logo.png" />
+    <HelloWorld msg="Welcome to Your Vue.js App" />
   </div>
 </template>
 
 <script>
+// @ is an alias to /src
+import HelloWorld from "@/components/HelloWorld.vue";
+
 export default {
-    data(){
-        return {
-            // randomObjTest: {
-            //     name: "123",
-            //     roleId: "admin"
-            // }
-        }
-    },
-    name: 'Home',
-    // computed: {},
-    // mounted() {},
-    // methods: {},
-}
+  name: "Home",
+  components: {
+    HelloWorld,
+  },
+};
 </script>
