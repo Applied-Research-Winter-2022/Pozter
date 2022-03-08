@@ -1,0 +1,15 @@
+const screenCanvas = require("../../query/screen_canvas");
+const express = require("express");
+const router = express.Router();
+
+router.get("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const response = await screenCanvas.fetchById(id);
+    res.json(response);
+  } catch (error) {
+    console.error("GET screen_canvas: ", error);
+  }
+});
+
+module.exports = router;
