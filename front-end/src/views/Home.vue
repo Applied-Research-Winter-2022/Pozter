@@ -26,7 +26,7 @@ export default {
   },
   async mounted() {
     await this.fetchBillboardId("814f8704-9462-11ec-abf7-9f7d873f0076");
-    this.billboards = await this.fetchBillboards();
+    await this.fetchBillboards();
   },
   computed: {},
   methods: {
