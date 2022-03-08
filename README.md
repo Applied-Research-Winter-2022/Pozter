@@ -4,47 +4,47 @@ Applied Research Winter 2022 Project Pozter
 
 # Project setup:
 
-No node_modules should be going up because of the `.gitignore` if it is please remove.
-Install node. Run this twice, back-end and front-end by cd to the directory:
+No `node_modules` should be going up because of the `.gitignore` if it is please remove.
 
-```
-npm install
-```
+Steps:
 
-You will need to have 2 terminals. One for the back-end and another for the front-end.
+* Install [Node.js](https://nodejs.org/en/) if you havn't already.
+* You will need to have 2 terminals. One for the back-end and another for the front-end.
 
 ## Back end:
 
-Run back-end:
+Run the following commands in the first terminal:
 
-```
-cd server
-npm install
-npm run start
+```console 
+$ cd server
+$ npm install
+$ npm run start
 ```
 
 ## Front end:
 
-In new terminal run the following command.
+In the second terminal run the following commands:
 
-Run front-end:
-
-```
-cd front-end
-npm install
-npm run serve
+```console
+$ cd front-end
+$ npm install
+$ npm run serve
 ```
 
 ### Compiles and minifies for production
 
-```
-npm run build
+In either the front end or the back end directory, run the following command:
+
+```console
+$ npm run build
 ```
 
 ### Lints and fixes files
 
-```
-npm run lint
+In either the front end or the back end directory, run the following command:
+
+```console
+$ npm run lint
 ```
 
 ### Customize configuration
