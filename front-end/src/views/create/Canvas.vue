@@ -1,10 +1,10 @@
 <template>
-  <div>Home page</div>
+  <div>canvas page</div>
 </template>
 
 <script>
 export default {
-  name: "Home",
+  name: "Step 2. Canvas",
   props: {},
   data() {
     return {};
