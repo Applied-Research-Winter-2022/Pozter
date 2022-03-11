@@ -7,6 +7,7 @@ router.get("/", async (req, res) => {
     const response = await userScreen.fetchAll();
     res.json(response);
   } catch (error) {
+    res.json(error);
     console.error("GET user_screens: ", error);
   }
 });

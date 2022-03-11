@@ -8,6 +8,7 @@ router.get("/:id", async (req, res) => {
     const response = await userScreen.fetchById(id);
     res.json(response);
   } catch (error) {
+    res.json(error);
     console.error("GET user_screen: ", error);
   }
 });

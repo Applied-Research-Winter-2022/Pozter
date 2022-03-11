@@ -26,10 +26,7 @@ router.post("/", async (req, res) => {
     const response = await userScreen.create(params);
     res.json(response);
   } catch (error) {
-    res.json({
-      error: true,
-      message: error,
-    });
+    res.json(error);
   }
 });
 

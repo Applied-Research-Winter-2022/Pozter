@@ -7,6 +7,7 @@ router.get("/", async (req, res) => {
     const response = await screenCanvas.fetchAll();
     res.json(response);
   } catch (error) {
+    res.json(error);
     console.error("GET screen_canvases: ", error);
   }
 });

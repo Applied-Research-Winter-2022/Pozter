@@ -8,6 +8,7 @@ router.get("/", async (req, res) => {
     const response = await billboard.fetchById(id);
     res.json(response);
   } catch (error) {
+    res.json(error);
     console.error("GET billboard: ", error);
   }
 });
