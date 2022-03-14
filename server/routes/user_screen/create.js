@@ -20,7 +20,12 @@ router.post("/", async (req, res) => {
       params.description = description;
     }
     if (config) {
-      params.config = config;
+      if (typeof config === "object") {
+        params.config = JSON.stringify(config);
+      } else {
+        params.config = config;
+      }
+      
     }
     
     const response = await userScreen.create(params);
