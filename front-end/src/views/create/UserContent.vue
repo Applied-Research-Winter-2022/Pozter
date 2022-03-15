@@ -1,105 +1,89 @@
 <template>
-    <v-container fluid class="fluid-background">
-   <v-row>
+  <v-container fluid class="fluid-background">
+    <v-row>
       <v-col sm="12">
-        <h2
-          class="d-flex justify-center" style = "border: solid #CCCCCC">
-          Billboard Pozter Selector
-          </h2>
+        <h2 class="d-flex justify-center" style="border: solid #cccccc">
+          Pozter User Content Designer
+        </h2>
         <v-row no-gutters>
-          <v-col
-            cols="8"
-            sm="2"
-          >
-      <v-card>
-        <v-navigation-drawer permanent>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="text-h6">
-                Application
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                subtext
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+          <v-col cols="8" sm="2">
+            <v-card>
+              <v-navigation-drawer permanent>
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-h6">
+                      Application
+                    </v-list-item-title>
+                    <v-list-item-subtitle> subtext </v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
 
-          <v-divider></v-divider>
+                <v-divider></v-divider>
 
-          <v-list
-            dense
-            nav
-             v-for="option in sidebarOptions"
-             :key="option.title"
-          >
-          <!-- Below is where you would provide the items for the list -->
-            <v-list-item link>
-                <v-list-item-icon>
-                  <v-icon>{{option.icon}}</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title >{{option.title}}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-        </v-navigation-drawer>
-      </v-card>
+                <v-list
+                  dense
+                  nav
+                  v-for="option in sidebarOptions"
+                  :key="option.title"
+                >
+                  <!-- Below is where you would provide the items for the list -->
+                  <v-list-item link>
+                    <v-list-item-icon>
+                      <v-icon>{{ option.icon }}</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>{{ option.title }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-navigation-drawer>
+            </v-card>
           </v-col>
           <!-- the 2 x 2 in the center -->
-            <v-col
-              cols="4"
-              sm="10"
-            >
-      <v-row >
-        <v-col
-          v-for="card in cards"
-          :key="card.title"
-          :cols="card.flex"
-        >
-          <v-card>
-          <!-- image -->
-            <v-img
-              :src="card.src"
-              contain
-              height="400px"
-   
-            >
-            </v-img>
-             <div class=" d-flex justify-center" v-text="card.title"></div>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-
-      
-            </v-card-actions>
-          </v-card>
-        </v-col>
-        <!-- button section -->
-        <v-row class="mb-6">
-        <v-col 
-            md="1"
-            offset-md="8"
-            >
-            <div>  
-            <v-btn>Cancel</v-btn>
-            </div>
-            </v-col>
-               <v-col 
-                md="1"
-                offset-md="1"
-            >
-            <div>  
-               <v-btn color="orange">
-              Next
-              </v-btn>
-            </div>
-          
-            </v-col>
+          <v-col cols="4" sm="10" class="pa-14" >
+            <v-row >
+              <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
+                <v-card class="pa-6">
+                  <!-- image -->
+                  
+                  <v-img :src="card.src" contain height="400px"> </v-img>
+                  
+                  <!-- <h3 class="d-flex justify-center"  v-text="card.title"></h3> -->
+                  <div class="d-flex justify-center pa-4"><input type="file"></div>
+                  
+                </v-card>
+              </v-col>
+              <!-- button section -->
+              <v-col>
+              <v-row class="mb-4">
+                <v-col cols="2" md="1" offset-md="2">
+                  <div>
+                    <v-btn color="orange accent-1">Create Another Screen</v-btn>
+                  </div>
+                </v-col>
+                <v-col md="1" offset-md="3">
+                  <div>
+                    <v-btn color="orange accent-1"> Configure Social Media Overlay </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
+               <v-row class="mb-6">
+                <v-col md="1" offset-md="8">
+                  <div>
+                    <v-btn>Cancel</v-btn>
+                  </div>
+                </v-col>
+                <v-col md="1" offset-md="1">
+                  <div>
+                    <v-btn color="orange"> Next </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
+              </v-col>
             </v-row>
-      </v-row>
           </v-col>
         </v-row>
       </v-col>
     </v-row>
-    </v-container>
-
+  </v-container>
 </template>
 
 <script>
@@ -113,25 +97,28 @@ export default {
       billboard: {},
       billboards: [],
       sidebarOptions: [
-        {title: 'My Files', icon: 'mdi-folder'},
-        {title: 'Shared with me', icon: 'mdi-account-multiple'},
-        {title: 'Starred', icon: 'mdi-star'},
-        {title: 'My Files', icon: 'mdi-folder'},
-        {title: 'Shared with me', icon: 'mdi-account-multiple'},
-        {title: 'Starred', icon: 'mdi-star'},
-        {title: 'My Files', icon: 'mdi-folder'},
-        {title: 'Shared with me', icon: 'mdi-account-multiple'},
-        {title: 'Starred', icon: 'mdi-star'},
-        {title: 'My Files', icon: 'mdi-folder'},
-        {title: 'Shared with me', icon: 'mdi-account-multiple'},
-        {title: 'Starred', icon: 'mdi-star'},
-        {title: 'My Files', icon: 'mdi-folder'},
-        {title: 'Shared with me', icon: 'mdi-account-multiple'},
-        {title: 'Starred', icon: 'mdi-star'},
+        { title: "My Files", icon: "mdi-folder" },
+        { title: "Shared with me", icon: "mdi-account-multiple" },
+        { title: "Starred", icon: "mdi-star" },
+        { title: "My Files", icon: "mdi-folder" },
+        { title: "Shared with me", icon: "mdi-account-multiple" },
+        { title: "Starred", icon: "mdi-star" },
+        { title: "My Files", icon: "mdi-folder" },
+        { title: "Shared with me", icon: "mdi-account-multiple" },
+        { title: "Starred", icon: "mdi-star" },
+        { title: "My Files", icon: "mdi-folder" },
+        { title: "Shared with me", icon: "mdi-account-multiple" },
+        { title: "Starred", icon: "mdi-star" },
+        { title: "My Files", icon: "mdi-folder" },
+        { title: "Shared with me", icon: "mdi-account-multiple" },
+        { title: "Starred", icon: "mdi-star" },
       ],
       cards: [
-        { title: 'Click to browse files:', src: require('../../assets/canvas_1.jpg'), flex: 12 },
-       
+        {
+          title: "Click to browse files:",
+          src: require("../../assets/canvas_1.jpg"),
+          flex: 12,
+        },
       ],
     };
   },
@@ -151,9 +138,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
-
-
-
+<style scoped></style>
