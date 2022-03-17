@@ -39,7 +39,7 @@
               <div class="screen d-flex justify-center pa-4">
                 <v-card
                   rounded="lg"
-                  elevation=3
+                  elevation="3"
                   class="deep-orange lighten-5 overflow-hidden"
                   min-height="60vh"
                   max-height="120vh"
@@ -96,7 +96,7 @@
             </v-sheet>
           </v-col>
         </v-row>
-        <v-flex xs12 pa-2>
+        <v-flex xs12 pa-4>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn>Cancel</v-btn>
@@ -143,7 +143,7 @@ export default {
         this.imageFile = undefined;
         this.image = undefined;
         this.mask = false;
-        this.input.value = ""; // <-- this will fix the issue
+        this.input.value = "";
         this.$emit("input", undefined);
       }
     },
