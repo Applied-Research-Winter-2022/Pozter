@@ -30,73 +30,21 @@
             </v-flex>
           </v-col>
 
-          <v-col>
-            <v-sheet
-              min-height="70vh"
-              rounded="lg"
-              color="deep-orange lighten-4"
-            >
-              <div class="screen d-flex justify-center pa-4">
-                <v-card
-                  rounded="lg"
-                  elevation=3
-                  class="deep-orange lighten-5 overflow-hidden"
-                  min-height="60vh"
-                  max-height="120vh"
-                  min-width="60vh"
-                  width="120vh"
-                  @click.stop="selectImage"
-                >
-                  <input
-                    id="fileInput"
-                    class="d-none"
-                    type="file"
-                    accept="image/*"
-                    @input="updateValue"
-                  />
-                  <v-fade-transition mode="out-in">
-                    <v-img v-if="image" aspect-ratio="1" :src="image">
-                      <v-row class="fill-height" align="end" justify="center">
-                        <v-slide-y-reverse-transition>
-                          <v-sheet
-                            v-if="mask"
-                            color="error"
-                            width="100%"
-                            height="100%"
-                            class="mask"
-                          />
-                        </v-slide-y-reverse-transition>
-                        <v-btn
-                          class="mb-3"
-                          fab
-                          x-small
-                          color="error"
-                          @click.stop="deleteImage"
-                        >
-                          <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                      </v-row>
-                    </v-img>
-                    <v-row
-                      v-else
-                      class="
-                        d-flex
-                        flex-column
-                        align-center
-                        justify-center
-                        fill-height
-                      "
-                    >
-                      <v-icon> mdi-paperclip </v-icon>
-                      <span class="mt-3">Upload Screen Canvas</span>
-                    </v-row>
-                  </v-fade-transition>
-                </v-card>
-              </div>
-            </v-sheet>
-          </v-col>
+          <v-flex>
+            <div class="screens pa-12">
+              <v-row>
+                <v-col md="12" sm="6">
+                  <v-select
+                    :items="screens"
+                    label="Select a Screen Canvas"
+                    solo
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </div>
+          </v-flex>
         </v-row>
-        <v-flex xs12 pa-2>
+        <v-flex xs12 pa-4>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn>Cancel</v-btn>
@@ -114,39 +62,15 @@ export default {
   props: {},
   data() {
     return {
-      input: undefined,
-      image: undefined,
-      imageFile: undefined,
-      mask: false,
       links: ["Link 1", "Link 2", "Link 3", "Link 4"],
+      screens: [
+        { text: "One Screen Canvas", value: "oneScreen" },
+        { text: "Three Screens Canvas", value: "threeScreens" },
+      ],
     };
   },
-  mounted() {
-    this.input = document.getElementById("fileInput");
-  },
+  mounted() {},
   computed: {},
-  methods: {
-    selectImage() {
-      if (!this.imageFile) {
-        this.input.click();
-      }
-    },
-    updateValue(event) {
-      this.imageFile = event.target.files[0];
-      this.image = this.imageFile
-        ? URL.createObjectURL(this.imageFile)
-        : undefined;
-      this.$emit("input", this.imageFile);
-    },
-    deleteImage() {
-      if (this.imageFile) {
-        this.imageFile = undefined;
-        this.image = undefined;
-        this.mask = false;
-        this.input.value = ""; // <-- this will fix the issue
-        this.$emit("input", undefined);
-      }
-    },
-  },
+  methods: {},
 };
 </script>
