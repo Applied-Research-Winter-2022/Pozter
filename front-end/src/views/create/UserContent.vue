@@ -1,130 +1,145 @@
 <template>
-  <v-container fluid class="fluid-background">
-    <v-row>
-      <v-col sm="12">
-        <h2 class="d-flex justify-center" style="border: solid #cccccc">
-          Pozter User Content Designer
-        </h2>
-        <v-row no-gutters>
-          <v-col cols="8" sm="2">
-            <v-card>
-              <v-navigation-drawer permanent>
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-h6">
-                      Application
-                    </v-list-item-title>
-                    <v-list-item-subtitle> subtext </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
+  <v-app id="inspire">
+    <v-toolbar color="deep-orange lighten-4" elevation="3" max-height="9vh">
+      <v-container class="py-0 fill-height">
+        <v-avatar class="mr-10" color="grey darken-1" size="32">
+          <img src="../../assets/pozter.png" contain alt="Pozter" />
+        </v-avatar>
 
-                <v-divider></v-divider>
+        <v-btn v-for="link in links" :key="link" text>
+          {{ link }}
+        </v-btn>
+        <v-spacer></v-spacer>
+      </v-container>
+    </v-toolbar>
 
-                <v-list
-                  dense
-                  nav
-                  v-for="option in sidebarOptions"
-                  :key="option.title"
-                >
-                  <!-- Below is where you would provide the items for the list -->
-                  <v-list-item link>
-                    <v-list-item-icon>
-                      <v-icon>{{ option.icon }}</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title>{{ option.title }}</v-list-item-title>
+    <v-main class="grey lighten-3 pt-2 pt-md-0">
+      <v-container>
+        <v-row>
+          <v-col md="2">
+            <v-flex hidden-sm-and-down>
+              <v-sheet elevation="2" rounded="lg">
+                <v-list color="deep-orange lighten-4 rounded">
+                  <v-list-item v-for="n in 5" :key="n" link>
+                    <v-list-item-content>
+                      <v-list-item-title> List Item {{ n }} </v-list-item-title>
+                    </v-list-item-content>
                   </v-list-item>
                 </v-list>
-              </v-navigation-drawer>
-            </v-card>
+              </v-sheet>
+            </v-flex>
           </v-col>
-          <!-- the 2 x 2 in the center -->
-          <v-col cols="4" sm="10" class="pa-14" >
-            <v-row >
-              <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
-                <v-card class="pa-6">
-                  <!-- image -->
-                  
-                  <v-img :src="card.src" contain height="400px"> </v-img>
-                  
-                  <!-- <h3 class="d-flex justify-center"  v-text="card.title"></h3> -->
-                  <div class="d-flex justify-center pa-4"><input type="file"></div>
-                  
+
+          <v-col md="9">
+            <v-sheet
+              min-height="65vh"
+              max-height="125vh"
+              min-width="70vh"
+              rounded="lg"
+              color="deep-orange lighten-4"
+            >
+              <div class="screen d-flex justify-center pa-4">
+                <v-card
+                  rounded="lg"
+                  elevation="3"
+                  class="deep-orange lighten-5 overflow-hidden"
+                  min-height="60vh"
+                  max-height="120vh"
+                  min-width="60vh"
+                  width="120vh"
+                  @click.stop="selectImage"
+                >
+                  <input
+                    id="fileInput"
+                    class="d-none"
+                    type="file"
+                    accept="image/*"
+                    @input="updateValue"
+                  />
+                  <v-fade-transition mode="out-in">
+                    <v-img v-if="image" aspect-ratio="1" :src="image">
+                      <v-row class="fill-height" align="end" justify="center">
+                        <v-slide-y-reverse-transition>
+                          <v-sheet
+                            v-if="mask"
+                            color="error"
+                            width="100%"
+                            height="100%"
+                            class="mask"
+                          />
+                        </v-slide-y-reverse-transition>
+                        <v-btn
+                          class="mb-3"
+                          fab
+                          x-small
+                          color="error"
+                          @click.stop="deleteImage"
+                        >
+                          <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                      </v-row>
+                    </v-img>
+                    <v-row
+                      v-else
+                      class="
+                        d-flex
+                        flex-column
+                        align-center
+                        justify-center
+                        fill-height
+                      "
+                    >
+                      <v-icon> mdi-paperclip </v-icon>
+                      <span class="mt-3">Upload Screen Canvas</span>
+                    </v-row>
+                  </v-fade-transition>
                 </v-card>
-              </v-col>
-              <!-- button section -->
-              <v-col>
-              <v-row class="mb-4">
-                <v-col cols="2" md="1" offset-md="2">
-                  <div>
-                    <v-btn color="orange accent-1">Create Another Screen</v-btn>
-                  </div>
-                </v-col>
-                <v-col md="1" offset-md="3">
-                  <div>
-                    <v-btn color="orange accent-1"> Configure Social Media Overlay </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
-               <v-row class="mb-6">
-                <v-col md="1" offset-md="8">
-                  <div>
-                    <v-btn>Cancel</v-btn>
-                  </div>
-                </v-col>
-                <v-col md="1" offset-md="1">
-                  <div>
-                    <v-btn color="orange"> Next </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
-              </v-col>
-            </v-row>
+              </div>
+            </v-sheet>
           </v-col>
         </v-row>
-      </v-col>
-    </v-row>
-  </v-container>
+        <v-flex>
+          <v-col md="9">
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="deep-orange lighten-4">Create Another Screen</v-btn>
+              <v-btn color="deep-orange lighten-4"
+                >Configure Social Media</v-btn
+              >
+            </v-card-actions>
+          </v-col>
+        </v-flex>
+        <v-flex>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn>Cancel</v-btn>
+            <v-btn color="deep-orange lighten-4">Next</v-btn>
+          </v-card-actions>
+        </v-flex>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
 // @ is an alias to /src
 import DataService from "../../../service/dataService";
-
 export default {
   name: "Step 3. User Content",
+  props: {},
   data() {
     return {
-      billboard: {},
-      billboards: [],
-      sidebarOptions: [
-        { title: "My Files", icon: "mdi-folder" },
-        { title: "Shared with me", icon: "mdi-account-multiple" },
-        { title: "Starred", icon: "mdi-star" },
-        { title: "My Files", icon: "mdi-folder" },
-        { title: "Shared with me", icon: "mdi-account-multiple" },
-        { title: "Starred", icon: "mdi-star" },
-        { title: "My Files", icon: "mdi-folder" },
-        { title: "Shared with me", icon: "mdi-account-multiple" },
-        { title: "Starred", icon: "mdi-star" },
-        { title: "My Files", icon: "mdi-folder" },
-        { title: "Shared with me", icon: "mdi-account-multiple" },
-        { title: "Starred", icon: "mdi-star" },
-        { title: "My Files", icon: "mdi-folder" },
-        { title: "Shared with me", icon: "mdi-account-multiple" },
-        { title: "Starred", icon: "mdi-star" },
-      ],
-      cards: [
-        {
-          title: "Click to browse files:",
-          src: require("../../assets/canvas_1.jpg"),
-          flex: 12,
-        },
-      ],
+      input: undefined,
+      image: undefined,
+      imageFile: undefined,
+      mask: false,
+      links: ["Link 1", "Link 2", "Link 3", "Link 4"],
     };
   },
   async mounted() {
     await this.fetchBillboardId("814f8704-9462-11ec-abf7-9f7d873f0076");
     await this.fetchBillboards();
+    this.input = document.getElementById("fileInput");
   },
   computed: {},
   methods: {
@@ -134,8 +149,27 @@ export default {
     async fetchBillboards() {
       this.billboards = await DataService.fetchBillboards();
     },
+    selectImage() {
+      if (!this.imageFile) {
+        this.input.click();
+      }
+    },
+    updateValue(event) {
+      this.imageFile = event.target.files[0];
+      this.image = this.imageFile
+        ? URL.createObjectURL(this.imageFile)
+        : undefined;
+      this.$emit("input", this.imageFile);
+    },
+    deleteImage() {
+      if (this.imageFile) {
+        this.imageFile = undefined;
+        this.image = undefined;
+        this.mask = false;
+        this.input.value = "";
+        this.$emit("input", undefined);
+      }
+    },
   },
 };
 </script>
-
-<style scoped></style>
