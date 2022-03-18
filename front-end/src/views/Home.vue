@@ -5,7 +5,7 @@
         <v-layout align-center justify-center>
           <v-flex xs6>
             <div class="text-xs-center">
-              <router-link to="/create" tag="button">
+              <router-link to="/create" >
                 <v-btn  class="mx-auto" id="button-create" color="orange">
                   New Canvas
                 </v-btn>

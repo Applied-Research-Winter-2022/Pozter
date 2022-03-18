@@ -48,14 +48,14 @@
               <v-row class="mb-6">
                 <v-col md="1" offset-md="8">
                   <div>
-                    <router-link to="/" tag="button">
+                    <router-link to="/">
                       <v-btn>Cancel</v-btn>
                     </router-link>
                   </div>
                 </v-col>
                 <v-col md="1" offset-md="1">
                   <div>
-                    <router-link to="/create/2" tag="button">
+                    <router-link to="/create/2">
                       <v-btn color="orange">Next</v-btn>
                     </router-link>
                   </div>
