@@ -7,7 +7,7 @@
             <div class="text-xs-center">
               <router-link to="/create" tag="button">
                 <v-btn  class="mx-auto" id="button-create" color="orange">
-                  Create New
+                  New Canvas
                 </v-btn>
               </router-link>
             </div>
