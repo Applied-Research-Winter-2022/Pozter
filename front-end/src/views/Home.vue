@@ -3,10 +3,14 @@
     <v-main>
       <v-container fill-height>
         <v-layout align-center justify-center>
-          <v-flex xs6>
+          <v-flex xs6 pa-6>
             <div class="text-xs-center">
-              <router-link to="/create" >
-                <v-btn  class="mx-auto" id="button-create" color="orange">
+              <router-link to="/create">
+                <v-btn
+                  class="mx-auto"
+                  id="button-create"
+                  color="deep-orange lighten-1"
+                >
                   New Canvas
                 </v-btn>
               </router-link>
@@ -19,15 +23,13 @@
 </template>
 
 <script>
-
 export default {
   name: "Home",
   props: {},
   data() {
     return {};
   },
-  components:{
-  },
+  components: {},
   computed: {},
   methods: {},
 };

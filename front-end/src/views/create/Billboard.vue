@@ -3,9 +3,9 @@
   <!-- v container creates a grid system for sub components -->
   <v-container>
     <v-row>
-    <!-- This V-col tag encompasses all sub components -->
+      <!-- This V-col tag encompasses all sub components -->
       <v-col sm="12">
-      <!-- This the header d-flex adds flexbox and justify-center is a flexbox attribute to center it-->
+        <!-- This the header d-flex adds flexbox and justify-center is a flexbox attribute to center it-->
         <h2 class="d-flex justify-center" style="border: solid #cccccc">
           Billboard Pozter Selector
         </h2>
@@ -17,23 +17,17 @@
           <!-- the 2 x 2 in the center -->
           <!-- the v-col sm set to 10 because 2 sm="2" already taken by sidebar
           only 12 spaces available for any given row -->
-          <v-col  sm="10">
+          <v-col sm="10">
             <!-- Row of cards formatted in a column  -->
             <v-row>
-              <v-col 
-              v-for="card in cards" 
-              :key="card.title" 
-              :cols="card.flex">
-              <!-- v-card holding the image src and the title from javascript array
+              <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
+                <!-- v-card holding the image src and the title from javascript array
               called "cards" putting it all together in a column picture first
               then the text because it goes up then down -->
 
                 <v-card>
                   <!-- components of this v-card -->
-                  <v-img 
-                  :src="card.src" 
-                  contain height="200px"> 
-                  </v-img>
+                  <v-img :src="card.src" contain height="200px"> </v-img>
 
                   <v-card-title
                     class="justify-center"
@@ -41,7 +35,7 @@
                   ></v-card-title>
                 </v-card>
               </v-col>
-              
+
               <!-- button section containg 2 buttons
               offsetted the first button by 8 and then the second
               button by 1 from that component-->
@@ -56,15 +50,13 @@
                 <v-col md="1" offset-md="1">
                   <div>
                     <router-link to="/create/2">
-                      <v-btn color="orange">Next</v-btn>
+                      <v-btn color="deep-orange lighten-1">Next</v-btn>
                     </router-link>
                   </div>
                 </v-col>
               </v-row>
             </v-row>
           </v-col>
-
-
         </v-row>
       </v-col>
     </v-row>
@@ -77,7 +69,7 @@
 import DataService from "../../../service/dataService";
 
 export default {
-  name: "Step 1. Billboard",
+  name: "Billboard",
   data() {
     return {
       billboard: {},
