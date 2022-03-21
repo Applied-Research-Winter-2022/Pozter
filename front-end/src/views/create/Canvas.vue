@@ -58,7 +58,7 @@
 
 <script>
 export default {
-  name: "Step 2. Canvas",
+  name: "Step2Canvas",
   props: {},
   data() {
     return {
@@ -69,7 +69,10 @@ export default {
       ],
     };
   },
-  mounted() {},
+  mounted() {
+    console.log(this.$route.query);
+    // from this.$route.query, we can get billboardId. using the DataService we can get all hte screen canvases associated with that billboardId
+  },
   computed: {},
   methods: {},
 };
