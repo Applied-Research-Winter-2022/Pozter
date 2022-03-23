@@ -46,7 +46,7 @@
 
 <script>
 export default {
-  name: "SocialMedia",
+  name: "Step4SocialMedia",
   props: {},
   data() {
     return {

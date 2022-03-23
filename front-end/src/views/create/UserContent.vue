@@ -116,7 +116,7 @@
 // @ is an alias to /src
 import DataService from "../../../service/dataService";
 export default {
-  name: "UserContent",
+  name: "Step3User Content",
   props: {},
   data() {
     return {

@@ -20,41 +20,15 @@
           <v-col sm="10">
             <!-- Row of cards formatted in a column  -->
             <v-row>
-              <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
-                <!-- v-card holding the image src and the title from javascript array
+              <v-col 
+              v-for="bb in billboards" 
+              :key="bb.id" 
+              :cols="6">
+              <!-- v-card holding the image src and the title from javascript array
               called "cards" putting it all together in a column picture first
               then the text because it goes up then down -->
-
-                <v-card>
-                  <!-- components of this v-card -->
-                  <v-img :src="card.src" contain height="200px"> </v-img>
-
-                  <v-card-title
-                    class="justify-center"
-                    v-text="card.title"
-                  ></v-card-title>
-                </v-card>
+                <BillboardCard :id="bb.id" :billboardName="bb.billboard_name" :venue="bb.venue" />
               </v-col>
-
-              <!-- button section containg 2 buttons
-              offsetted the first button by 8 and then the second
-              button by 1 from that component-->
-              <v-row class="mb-6">
-                <v-col md="1" offset-md="8">
-                  <div>
-                    <router-link to="/">
-                      <v-btn>Cancel</v-btn>
-                    </router-link>
-                  </div>
-                </v-col>
-                <v-col md="1" offset-md="1">
-                  <div>
-                    <router-link to="/create/2">
-                      <v-btn color="deep-orange lighten-1">Next</v-btn>
-                    </router-link>
-                  </div>
-                </v-col>
-              </v-row>
             </v-row>
           </v-col>
         </v-row>
@@ -67,36 +41,17 @@
 <script>
 // @ is an alias to /src
 import DataService from "../../../service/dataService";
+import BillboardCard from "../../components/Billboard/BillboardCard.vue";
 
 export default {
-  name: "Billboard",
+  name: "Step1Billboard",
+  components: {
+    BillboardCard,
+  },
   data() {
     return {
       billboard: {},
       billboards: [],
-      // This cards correspond to the 4 poster options
-      cards: [
-        {
-          title: "CF Bay-Dundas Digital",
-          src: require("../../assets/canvas_1.jpg"),
-          flex: 6,
-        },
-        {
-          title: "CFTEC Tower Digital",
-          src: require("../../assets/canvas_2.jpg"),
-          flex: 6,
-        },
-        {
-          title: "AOBOne Digital Screen",
-          src: require("../../assets/canvas_1.jpg"),
-          flex: 6,
-        },
-        {
-          title: "AOB Two Digital Screen",
-          src: require("../../assets/canvas_1.jpg"),
-          flex: 6,
-        },
-      ],
     };
   },
   async mounted() {

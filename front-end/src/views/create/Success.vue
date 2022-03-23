@@ -23,7 +23,7 @@
 
 <script>
 export default {
-  name: "Success",
+  name: "Step5Success",
   props: {},
   data() {
     return {
