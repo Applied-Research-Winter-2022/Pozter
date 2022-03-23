@@ -3,9 +3,9 @@
   <!-- v container creates a grid system for sub components -->
   <v-container>
     <v-row>
-    <!-- This V-col tag encompasses all sub components -->
+      <!-- This V-col tag encompasses all sub components -->
       <v-col sm="12">
-      <!-- This the header d-flex adds flexbox and justify-center is a flexbox attribute to center it-->
+        <!-- This the header d-flex adds flexbox and justify-center is a flexbox attribute to center it-->
         <h2 class="d-flex justify-center" style="border: solid #cccccc">
           Billboard Pozter Selector
         </h2>
@@ -17,7 +17,7 @@
           <!-- the 2 x 2 in the center -->
           <!-- the v-col sm set to 10 because 2 sm="2" already taken by sidebar
           only 12 spaces available for any given row -->
-          <v-col  sm="10">
+          <v-col sm="10">
             <!-- Row of cards formatted in a column  -->
             <v-row>
               <v-col 

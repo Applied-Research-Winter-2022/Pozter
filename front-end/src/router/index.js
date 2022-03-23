@@ -29,12 +29,12 @@ const routes = [
   },
   {
     path: "/create/3", // i.e. "step 3"
-    name: "UserContent",
+    name: "User Content",
     component: UserContent,
   },
   {
     path: "/create/4", // i.e. "step 4"
-    name: "SocialMedia",
+    name: "Social Media",
     component: SocialMedia,
   },
   {
