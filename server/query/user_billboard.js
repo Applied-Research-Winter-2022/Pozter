@@ -1,6 +1,30 @@
 const db = require("../connection/pg");
+const Joi = require("joi");
+
+const createSchema = Joi.object().keys({
+  user_id: Joi.string().guid().required(),
+  user_billboard_name: Joi.string().required(),
+  description: Joi.string().required(),
+  socket_url: Joi.string().required(),
+  config: Joi.string().required(),
+});
 
 module.exports = {
+  async create({ user_id, user_billboard_name, description, socket_url, config }) {
+    const validation = createSchema.validate({ user_id, user_billboard_name, description, socket_url, config });
+    if (validation.error) {
+      console.error(validation.error);
+      return validation.error;
+    } else {
+      const result = await db
+        .query(
+          `INSERT INTO user_billboards (user_id, user_billboard_name, description, socket_url, config) VALUES ('${user_id}','${user_billboard_name}','${description}', '${socket_url}', '${config}') returning id`
+        )
+        .then((res) => res.rows)
+        .catch((err) => Promise.reject(err));
+      return result;
+    }
+  },
   async fetchByIdFull(id) {
     const userBillboard = await db.query(`SELECT * FROM user_billboards WHERE id = '${id}';`);
     for (let ubRowIndex in userBillboard.rows) {
