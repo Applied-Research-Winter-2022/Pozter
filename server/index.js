@@ -18,6 +18,10 @@ app.use("/screen_canvases", require("./routes/screen_canvas/fetchAll"));
 app.use("/user_screen/create", require("./routes/user_screen/create"));
 app.use("/user_screen/id", require("./routes/user_screen/fetchById"));
 app.use("/user_screens", require("./routes/user_screen/fetchAll"));
+// Social Media Posts
+app.use("/social_media_post/create", require("./routes/social_media_post/create"));
+app.use("/social_media_post/id", require("./routes/social_media_post/fetchById"));
+app.use("/social_media_posts", require("./routes/social_media_post/fetchAll"));
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
