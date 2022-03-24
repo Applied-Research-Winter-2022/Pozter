@@ -18,6 +18,9 @@ app.use("/screen_canvases", require("./routes/screen_canvas/fetchAll"));
 app.use("/user_screen/create", require("./routes/user_screen/create"));
 app.use("/user_screen/id", require("./routes/user_screen/fetchById"));
 app.use("/user_screens", require("./routes/user_screen/fetchAll"));
+// User Billboard
+app.use("/user_billboard/create", require("./routes/user_billboard/create"));
+app.use("/user_billboard/full/id", require("./routes/user_billboard/fetchByIdFull"));
 // Social Media Content
 app.use("/social_media_content/create", require("./routes/social_media_content/create"));
 app.use("/social_media_content/id", require("./routes/social_media_content/fetchById"));

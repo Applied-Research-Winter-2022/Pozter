@@ -12,3 +12,7 @@ constraint fk_screen_canvas_id
 	foreign key(screen_canvas_id)
 		references screen_canvases(id)
 );
+constraint fk_user_billboard_id
+	foreign key(user_billboard_id)
+		references user_billboards(id)
+);
