@@ -1,15 +1,10 @@
 <template>
   <v-card :hover="true" @click="handleClick">
     <!-- components of this v-card -->
-    <v-img 
-    :src="require('../../assets/canvas_1.jpg')" 
-    contain height="200px"> 
+    <v-img :src="require('../../assets/canvas_1.jpg')" contain height="200px">
     </v-img>
 
-    <v-card-title
-      class="justify-center"
-      v-text="billboardName"
-    ></v-card-title>
+    <v-card-title class="justify-center" v-text="billboardName"></v-card-title>
   </v-card>
 </template>
 
@@ -19,7 +14,7 @@ export default {
   props: {
     id: String,
     billboardName: String,
-    venue: String
+    venue: String,
   },
   data() {
     return {};
@@ -33,7 +28,7 @@ export default {
           billboardId: this.id, // send the id chosen by the user to the next page
         },
       });
-    }
-  }
+    },
+  },
 };
 </script>
