@@ -20,14 +20,15 @@
           <v-col sm="10">
             <!-- Row of cards formatted in a column  -->
             <v-row>
-              <v-col 
-              v-for="bb in billboards" 
-              :key="bb.id" 
-              :cols="6">
-              <!-- v-card holding the image src and the title from javascript array
+              <v-col v-for="bb in billboards" :key="bb.id" :cols="6">
+                <!-- v-card holding the image src and the title from javascript array
               called "cards" putting it all together in a column picture first
               then the text because it goes up then down -->
-                <BillboardCard :id="bb.id" :billboardName="bb.billboard_name" :venue="bb.venue" />
+                <BillboardCard
+                  :id="bb.id"
+                  :billboardName="bb.billboard_name"
+                  :venue="bb.venue"
+                />
               </v-col>
             </v-row>
           </v-col>
@@ -56,7 +57,9 @@ export default {
   },
   async mounted() {
     await this.fetchBillboardId("814f8704-9462-11ec-abf7-9f7d873f0076");
+    console.log("billboard: "+ JSON.stringify(this.billboard));
     await this.fetchBillboards();
+    console.log("billboards: "+ JSON.stringify(this.billboards));
   },
   computed: {},
   methods: {
