@@ -22,6 +22,9 @@ app.use("/user_screens", require("./routes/user_screen/fetchAll"));
 app.use("/social_media_post/create", require("./routes/social_media_post/create"));
 app.use("/social_media_post/id", require("./routes/social_media_post/fetchById"));
 app.use("/social_media_posts", require("./routes/social_media_post/fetchAll"));
+// User Billboard
+app.use("/user_billboard/create", require("./routes/user_billboard/create"));
+app.use("/user_billboard/full/id", require("./routes/user_billboard/fetchByIdFull"));
 // Social Media Content
 app.use("/social_media_content/create", require("./routes/social_media_content/create"));
 app.use("/social_media_content/id", require("./routes/social_media_content/fetchById"));
