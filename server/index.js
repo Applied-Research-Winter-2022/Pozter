@@ -18,6 +18,8 @@ app.use("/screen_canvases", require("./routes/screen_canvas/fetchAll"));
 app.use("/user_screen/create", require("./routes/user_screen/create"));
 app.use("/user_screen/id", require("./routes/user_screen/fetchById"));
 app.use("/user_screens", require("./routes/user_screen/fetchAll"));
+// User Billboard
+app.use("/user_billboard/id", require("./routes/user_billboard/fetchByIdFull"));
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
