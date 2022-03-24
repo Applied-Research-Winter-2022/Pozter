@@ -53,13 +53,7 @@
                   </v-img>
                   <v-row
                     v-else
-                    class="
-                      d-flex
-                      flex-column
-                      align-center
-                      justify-center
-                      fill-height
-                    "
+                    class="d-flex flex-column align-center justify-center fill-height"
                   >
                     <v-icon> mdi-paperclip </v-icon>
                     <span class="mt-3">Upload a Screen Canvas</span>
