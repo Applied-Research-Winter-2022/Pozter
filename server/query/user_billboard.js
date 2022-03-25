@@ -53,7 +53,7 @@ module.exports = {
         }
       }
     }
-    return userBillboard;
+    return userBillboard.rows;
   },
 };
 

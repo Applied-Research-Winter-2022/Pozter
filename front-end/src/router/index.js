@@ -6,6 +6,7 @@ import Canvas from "../views/create/Canvas";
 import UserContent from "../views/create/UserContent";
 import SocialMedia from "../views/create/SocialMedia";
 import Success from "../views/create/Success";
+import PlayerHome from "../views/play/Home";
 
 Vue.use(VueRouter);
 
@@ -44,7 +45,11 @@ const routes = [
   },
 
   // Billboard Player App
-  //  - put routes here
+  {
+    path: "/play/:id",
+    name: "PlayerHome",
+    component: PlayerHome,
+  }
 ];
 
 const router = new VueRouter({
