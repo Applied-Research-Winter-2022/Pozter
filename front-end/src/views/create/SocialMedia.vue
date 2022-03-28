@@ -4,7 +4,7 @@
       <v-flex>
         <div class="hashtag pa-12">
           <v-row>
-            <v-col md="12" sm="6">
+            <v-col>
               <v-text-field
                 v-model="hashtag"
                 label="Enter a hashtag"
@@ -49,9 +49,7 @@ export default {
   name: "Step4SocialMedia",
   props: {},
   data() {
-    return {
-      links: ["Link 1", "Link 2", "Link 3", "Link 4"],
-    };
+    return { hashtag: "" };
   },
   computed: {},
   methods: {},

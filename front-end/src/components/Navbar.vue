@@ -4,7 +4,7 @@
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
       <v-avatar class="mr-5 ml-5" size="32" rounded>
         <img
-          src="https://bit.ly/3IoVGU0"
+          src="../../src/assets/poz.png"
           contain
           alt="Pozter"
           @click="returnHome"
@@ -46,7 +46,7 @@ export default {
   }),
   methods: {
     returnHome() {
-      this.$router.push("/");
+      this.$router.push("/").catch(() => {});
     },
   },
   computed: {

@@ -4,7 +4,7 @@
       <v-flex>
         <div class="screens pa-12">
           <v-row>
-            <v-col md="12" sm="6">
+            <v-col>
               <v-select
                 v-model="selectedScreen"
                 :items="screens"
