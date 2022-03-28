@@ -13,7 +13,7 @@
         </p>
         <strong class="d-flex justify-center">
           <a :href="userBillboardUrl"
-            >http://localhost:8080/Play/{{ userBillboardId }}</a
+            >http://localhost:8080/play/{{ userBillboardId }}</a
           >
         </strong>
       </v-col>
@@ -27,12 +27,12 @@ export default {
   props: {},
   data() {
     return {
-      userBillboardId: "129879078-a09s8da9-1230987",
+      userBillboardId: "d12cb650-9f40-11ec-bbaa-6fe27c042acc",
     };
   },
   computed: {
     userBillboardUrl() {
-      return "http://localhost:8080/Play/" + this.userBillboardId;
+      return "http://localhost:8080/play/" + this.userBillboardId;
     },
   },
   methods: {},
