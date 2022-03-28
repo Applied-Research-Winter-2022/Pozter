@@ -24,6 +24,11 @@ export default {
       screenCanvases: {},
       userScreens: [],
       socialMediaPosts: [],
+      
+      socket: null,
+
+      screenInterval: null,
+      postInterval: null,
 
       currentUserScreenIndex: 2,
       currentSocialMediaPostIndex: 0,
@@ -51,23 +56,13 @@ export default {
     //  - social media posts
     this.socialMediaPosts = config.social_media_content[0].social_media_posts;
 
-    // Set up the socket connection
-    const socket = io(this.userBillboard.socketurl);
+    // Set up sockets
+    this.socket = io(this.userBillboard.socketurl);
+    this.socket.on("user-screen-next", this.handleUserScreenNext);
+    this.socket.on("social-media-next", this.handleSocialMediaNext);
 
-    socket.on("user-screen-next", () => {
-      if (this.currentUserScreenIndex === this.userScreens.length - 1) {
-        this.currentUserScreenIndex = 0;
-      } else {
-        this.currentUserScreenIndex++;
-      }
-    });
-    socket.on("social-media-next", () => {
-      if (this.currentSocialMediaPostIndex === this.socialMediaPosts.length - 1) {
-        this.currentSocialMediaPostIndex = 0;
-      } else {
-        this.currentSocialMediaPostIndex++;
-      }
-    });
+    this.screenInterval = setInterval(this.handleUserScreenNext, 10000);
+    this.screenInterval = setInterval(this.handleSocialMediaNext, 4000);
   },
   computed: {
     currentUserScreen() {
@@ -95,7 +90,28 @@ export default {
       return null;
     },
   },
-  methods: {},
+  methods: {
+    handleUserScreenNext() {
+      if (this.currentUserScreenIndex === this.userScreens.length - 1) {
+        this.currentUserScreenIndex = 0;
+      } else {
+        this.currentUserScreenIndex++;
+      }
+    },
+    handleSocialMediaNext() {
+      if (this.currentSocialMediaPostIndex === this.socialMediaPosts.length - 1) {
+        this.currentSocialMediaPostIndex = 0;
+      } else {
+        this.currentSocialMediaPostIndex++;
+      }
+    }
+  },
+  destroyed() {
+    this.socket.disconnect();
+    
+    clearInterval(this.screenInterval);
+    clearInterval(this.postInterval);
+  },
 };
 </script>
 
