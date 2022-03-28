@@ -4,7 +4,7 @@
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
       <v-avatar class="mr-5 ml-5" size="32" rounded>
         <img
-          src="https://bit.ly/3IoVGU0"
+          src="../../src/assets/poz.png"
           contain
           alt="Pozter"
           @click="returnHome"
@@ -16,7 +16,7 @@
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list dense nav>
         <v-list-item-group active-class="indigo--text text--accent-4">
-          <v-list-item v-for="link in links" :key="link">
+          <v-list-item v-for="link in links" :key="link.title">
             <v-list-item-icon>
               <v-icon>
                 {{ link.icon }}
@@ -46,7 +46,7 @@ export default {
   }),
   methods: {
     returnHome() {
-      this.$router.push("/");
+      this.$router.push("/").catch(() => {});
     },
   },
   computed: {

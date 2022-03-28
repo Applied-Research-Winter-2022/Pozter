@@ -20,6 +20,16 @@ class DataService {
       return false;
     }
   }
+  async fetchUserBillboard(id) {
+    try {
+      const response = await http.dataApi.get(`/user_billboard/full/id/${id}`);
+      console.log(response);
+      return response.data[0];
+    } catch (e) {
+      console.error("Failed to fetch billboard - ", e);
+      return false;
+    }
+  }
   // CREATE
   // UPDATE
   // DELETE

@@ -2,70 +2,33 @@
   <div>
     <v-container>
       <v-row>
-        <v-col md="9">
-          <v-sheet
-            min-height="65vh"
-            max-height="125vh"
-            min-width="70vh"
-            rounded="lg"
-            color="deep-orange lighten-2"
-          >
-            <div class="screen d-flex justify-center pa-4">
-              <v-card
-                rounded="lg"
-                elevation="3"
-                class="deep-orange lighten-4 overflow-hidden"
-                min-height="60vh"
-                max-height="120vh"
-                min-width="60vh"
-                width="120vh"
-                @click.stop="selectImage"
+        <v-col>
+          <v-file-input
+            multiple
+            label="Upload a Screen Canvas"
+            chips
+            @change="onAddFiles"
+          />
+
+          <v-card v-if="files.length > 0">
+            <v-card-text>
+              <v-alert
+                type="success"
+                v-for="file in files"
+                :key="file.public_id"
               >
-                <input
-                  id="fileInput"
-                  class="d-none"
-                  type="file"
-                  accept="image/*"
-                  @input="updateValue"
-                />
-                <v-fade-transition mode="out-in">
-                  <v-img v-if="image" aspect-ratio="1" :src="image">
-                    <v-row class="fill-height" align="end" justify="center">
-                      <v-slide-y-reverse-transition>
-                        <v-sheet
-                          v-if="mask"
-                          color="error"
-                          width="100%"
-                          height="100%"
-                          class="mask"
-                        />
-                      </v-slide-y-reverse-transition>
-                      <v-btn
-                        class="mb-3"
-                        fab
-                        x-small
-                        color="error"
-                        @click.stop="deleteImage"
-                      >
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
-                    </v-row>
-                  </v-img>
-                  <v-row
-                    v-else
-                    class="d-flex flex-column align-center justify-center fill-height"
-                  >
-                    <v-icon> mdi-paperclip </v-icon>
-                    <span class="mt-3">Upload a Screen Canvas</span>
-                  </v-row>
-                </v-fade-transition>
-              </v-card>
-            </div>
-          </v-sheet>
+                File uploaded: {{ file.original_filename }} at {{ file.url }}
+              </v-alert>
+            </v-card-text>
+          </v-card>
+
+          <v-alert v-if="isError">
+            {{ errorText }}
+          </v-alert>
         </v-col>
       </v-row>
       <v-flex>
-        <v-col md="7">
+        <v-col md="9">
           <v-card-actions>
             <v-spacer></v-spacer>
             <router-link to="/create/3">
@@ -110,20 +73,18 @@
 // @ is an alias to /src
 import DataService from "../../../service/dataService";
 export default {
-  name: "Step3User Content",
+  name: "Step3UserContent",
   props: {},
   data() {
     return {
-      input: undefined,
-      image: undefined,
-      imageFile: undefined,
-      mask: false,
+      files: [],
+      isError: false,
+      errorText: null,
     };
   },
   async mounted() {
     await this.fetchBillboardId("814f8704-9462-11ec-abf7-9f7d873f0076");
     await this.fetchBillboards();
-    this.input = document.getElementById("fileInput");
   },
   computed: {},
   methods: {
@@ -133,26 +94,49 @@ export default {
     async fetchBillboards() {
       this.billboards = await DataService.fetchBillboards();
     },
-    selectImage() {
-      if (!this.imageFile) {
-        this.input.click();
+    onAddFiles(files) {
+      if (files.length > 0) {
+        files.forEach((file) => {
+          window.console.log(file);
+          this.uploadFileToCloudinary(file).then((fileResponse) => {
+            this.files.push(fileResponse);
+          });
+        });
       }
     },
-    updateValue(event) {
-      this.imageFile = event.target.files[0];
-      this.image = this.imageFile
-        ? URL.createObjectURL(this.imageFile)
-        : undefined;
-      this.$emit("input", this.imageFile);
-    },
-    deleteImage() {
-      if (this.imageFile) {
-        this.imageFile = undefined;
-        this.image = undefined;
-        this.mask = false;
-        this.input.value = "";
-        this.$emit("input", undefined);
-      }
+    uploadFileToCloudinary(file) {
+      return new Promise(function (resolve, reject) {
+        // ideally these to lines would be in a .env file
+        const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/pozter/upload";
+        const CLOUDINARY_UPLOAD_PRESET = "affgwoft";
+        let formData = new FormData();
+        formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+        formData.append("folder", "cloudinary-demo");
+        formData.append("file", file);
+        let request = new XMLHttpRequest();
+        request.open("POST", CLOUDINARY_URL, true);
+        request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        request.onreadystatechange = () => {
+          // uploaded successfully
+          if (request.readyState === 4 && request.status === 200) {
+            let response = JSON.parse(request.responseText);
+            resolve(response);
+          }
+          // not uploaded
+          if (request.status !== 200) {
+            let response = JSON.parse(request.responseText);
+            let error = response.error.message;
+            this.errorText = "error uploading files " + error;
+            this.isError = true;
+            reject(error);
+          }
+        };
+        request.onerror = (err) => {
+          alert("error: " + err);
+          reject(err);
+        };
+        request.send(formData);
+      });
     },
   },
 };
