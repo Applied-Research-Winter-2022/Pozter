@@ -31,7 +31,7 @@
         <v-col md="9">
           <v-card-actions>
             <v-spacer></v-spacer>
-            <router-link to="/create/3">
+            <router-link to="/create/2">
               <v-btn class="mx-3 deep-orange lighten-2"
                 >Create Another Screen</v-btn
               >
