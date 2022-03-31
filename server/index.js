@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+
 app.use(express.json());
 app.use(cors());
 
@@ -29,6 +30,37 @@ app.use("/user_billboard/full/id", require("./routes/user_billboard/fetchByIdFul
 app.use("/social_media_content/create", require("./routes/social_media_content/create"));
 app.use("/social_media_content/id", require("./routes/social_media_content/fetchById"));
 app.use("/social_media_content/user_billboard_id", require("./routes/social_media_content/fetchByUserBillboardId"));
+
+// SOCKET
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+  },
+});
+
+// If we have a connection....
+io.on("connection", function (socket) {
+  // when the auctioneer submits a question...
+  socket.on("submitItem", function (auctioneerData) {
+    // Set the correct answer
+    data = auctioneerData;
+
+    console.log("Item submitted: " + JSON.stringify(auctioneerData));
+    // Broadcast the auction to all the bidder (but not the auctioneer/sender)
+    socket.broadcast.emit("deliverAuctionItemTime", auctioneerData);
+  });
+
+  // when a bidder submits a bid...
+  socket.on("submitBid", function (bidderData) {
+    console.log("Bid submitted: " + JSON.stringify(bidderData));
+
+    socket.broadcast.emit("submitBid", { bidderName: bidderData.bidderName, bidOffer: bidderData.bidOffer, counter: bidderData.counter });
+    // Send back if bidder is their was the highest.
+    if (bidderData.bidOffer > data.auctionPrice) {
+      io.to(socket.id).emit("areHighest");
+    }
+  });
+});
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
