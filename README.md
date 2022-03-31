@@ -8,14 +8,14 @@ No `node_modules` should be going up because of the `.gitignore` if it is please
 
 Steps:
 
-* Install [Node.js](https://nodejs.org/en/) if you havn't already.
-* You will need to have 2 terminals. One for the back-end and another for the front-end.
+- Install [Node.js](https://nodejs.org/en/) if you havn't already.
+- You will need to have 2 terminals. One for the back-end and another for the front-end.
 
 ## Back end:
 
 Run the following commands in the first terminal:
 
-```console 
+```console
 $ cd server
 $ npm install
 $ npm run start
@@ -29,6 +29,15 @@ In the second terminal run the following commands:
 $ cd front-end
 $ npm install
 $ npm run serve
+```
+
+## Pull Request:
+
+Before each pull request or for each new commit on a pull request `npm run build` needs to be ran. This is to build the front end changes and have it all be placed into the `/front-end/dist` folder for deployment.
+
+```
+cd front-end
+npm run build
 ```
 
 ### Compiles and minifies for production

@@ -1,3 +1,4 @@
+const serveStatic = require("serve-static");
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -29,6 +30,11 @@ app.use("/user_billboard/full/id", require("./routes/user_billboard/fetchByIdFul
 app.use("/social_media_content/create", require("./routes/social_media_content/create"));
 app.use("/social_media_content/id", require("./routes/social_media_content/fetchById"));
 app.use("/social_media_content/user_billboard_id", require("./routes/social_media_content/fetchByUserBillboardId"));
+
+// this * route is to serve project on different page routes except root `/`
+app.get(/.*/, function (req, res) {
+  res.sendFile(path.join(__dirname, "../webui/dist/index.html"));
+});
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
