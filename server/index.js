@@ -13,6 +13,7 @@ app.use("/billboard/id", require("./routes/billboard/fetchById"));
 app.use("/billboards", require("./routes/billboard/fetchAll"));
 // Screen Canvases
 app.use("/screen_canvas/id", require("./routes/screen_canvas/fetchById"));
+app.use("/screen_canvas/id/billboard", require("./routes/screen_canvas/fetchByBillboardId"));
 app.use("/screen_canvases", require("./routes/screen_canvas/fetchAll"));
 // User Screens
 app.use("/user_screen/create", require("./routes/user_screen/create"));
