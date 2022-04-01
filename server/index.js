@@ -5,10 +5,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/", function (req, res) {
-  res.send("Hello World");
-});
-
 // Billboard
 app.use("/billboard/id", require("./routes/billboard/fetchById"));
 app.use("/billboards", require("./routes/billboard/fetchAll"));
