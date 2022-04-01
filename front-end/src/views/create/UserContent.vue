@@ -4,22 +4,24 @@
       <v-row>
         <v-col>
           <v-file-input
-            multiple
+            accept="image/png, image/jpeg, image/bmp"
             label="Upload a Screen Canvas"
             chips
-            @change="onAddFiles"
+            @change="onAddFile"
           />
-
-          <v-card v-if="files.length > 0">
+          <v-card v-if="didUploadImage === true">
             <v-card-text>
-              <v-alert
-                type="success"
-                v-for="file in files"
-                :key="file.public_id"
-              >
+              <v-alert type="success">
                 File uploaded: {{ file.original_filename }} at {{ file.url }}
               </v-alert>
             </v-card-text>
+          </v-card>
+          <v-card v-if="previewUrl">
+            <v-card>
+              <v-responsive :aspect-ratio="16 / 9">
+                <v-img id="preview" class="ma-6" :src="previewUrl"></v-img>
+              </v-responsive>
+            </v-card>
           </v-card>
 
           <v-alert v-if="isError">
@@ -27,48 +29,51 @@
           </v-alert>
         </v-col>
       </v-row>
-      <v-flex>
-        <v-col md="9">
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <router-link to="/create/2">
-              <v-btn class="mx-3 deep-orange lighten-2"
-                >Create Another Screen</v-btn
-              >
-            </router-link>
-            <router-link to="/create/4">
-              <v-btn class="mx-3 deep-orange lighten-2"
-                >Configure Social Media</v-btn
-              >
-            </router-link>
-          </v-card-actions>
-        </v-col>
-      </v-flex>
+      <!-- Buttons start -->
       <v-flex xs12 pa-4>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-row class="mb-6">
-            <v-col md="2" offset-md="8">
+            <v-col md="4" offset-md="0">
               <div>
-                <router-link to="/">
-                  <v-btn>Cancel</v-btn>
+                <router-link to="/create/2">
+                  <v-btn class="mx-3 deep-orange lighten-2">Create Another Screen</v-btn>
                 </router-link>
               </div>
             </v-col>
-            <v-col md="1" offset-md="1">
+
+            <v-col md="2" offset-md="0">
               <div>
-                <router-link to="/create/done">
-                  <v-btn color="deep-orange lighten-1">Next</v-btn>
+                <v-btn
+                  :disabled="!isImageSelected"
+                  @click="uploadFile"
+                  color="green lighten-2"
+                  >Upload</v-btn
+                >
+              </div>
+            </v-col>
+            <v-col md="" offset-md="0">
+              <div>
+                <router-link
+                  :disabled="!didUploadImage"
+                  :event="didUploadImage ? 'click' : ''"
+                  to="/create/4"
+                >
+                  <v-btn :disabled="!didUploadImage" color="deep-orange lighten-1"
+                    >Configure Social Media</v-btn
+                  >
                 </router-link>
               </div>
             </v-col>
           </v-row>
+          <!-- buttons end -->
         </v-card-actions>
       </v-flex>
     </v-container>
   </div>
 </template>
 
+<!-- JavaScript starts Here -->
 <script>
 // @ is an alias to /src
 import DataService from "../../../service/dataService";
@@ -77,9 +82,14 @@ export default {
   props: {},
   data() {
     return {
-      files: [],
+      didUploadImage: false,
       isError: false,
       errorText: null,
+      previewUrl: null,
+      previewFile: null,
+      isUploading: false,
+      isImageSelected: false,
+      file: null,
     };
   },
   async mounted() {
@@ -94,18 +104,31 @@ export default {
     async fetchBillboards() {
       this.billboards = await DataService.fetchBillboards();
     },
-    onAddFiles(files) {
-      if (files.length > 0) {
-        files.forEach((file) => {
-          window.console.log(file);
-          this.uploadFileToCloudinary(file).then((fileResponse) => {
-            this.files.push(fileResponse);
-          });
-        });
+    createImage(file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        this.previewUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    onAddFile(file) {
+      if (!file) {
+        return;
       }
+      this.didUploadImage = false;
+      this.previewFile = file;
+      this.createImage(file);
+      this.isImageSelected = true;
+    },
+    uploadFile() {
+      // this.isUploading = true;
+      this.uploadFileToCloudinary(this.previewFile).then((fileResponse) => {
+        this.file = fileResponse;
+      });
     },
     uploadFileToCloudinary(file) {
-      return new Promise(function (resolve, reject) {
+      return new Promise((resolve, reject) => {
         // ideally these to lines would be in a .env file
         const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/pozter/upload";
         const CLOUDINARY_UPLOAD_PRESET = "affgwoft";
@@ -117,8 +140,10 @@ export default {
         request.open("POST", CLOUDINARY_URL, true);
         request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         request.onreadystatechange = () => {
+          this.isUploading = false;
           // uploaded successfully
           if (request.readyState === 4 && request.status === 200) {
+            this.didUploadImage = true;
             let response = JSON.parse(request.responseText);
             resolve(response);
           }
@@ -128,6 +153,7 @@ export default {
             let error = response.error.message;
             this.errorText = "error uploading files " + error;
             this.isError = true;
+            this.didUploadImage = false;
             reject(error);
           }
         };
