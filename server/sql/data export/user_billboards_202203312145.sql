@@ -1,0 +1,5 @@
+INSERT INTO public.user_billboards (id,user_id,user_billboard_name,description,socket_url,config,created_at,updated_at) VALUES
+	 ('d12cb650-9f40-11ec-bbaa-6fe27c042acc'::uuid,'35a27f4e-9f40-11ec-bbaa-bba14276ac27'::uuid,'Placeholder User Billboard','Created for testing','http://localhost:8000','{}','2022-03-08 19:35:27.773136-05','2022-03-24 22:31:32.502325-04'),
+	 ('35a27f4e-9f40-11ec-bbaa-bba14276ac27'::uuid,NULL,'no name','some description','http://localhost:8000',NULL,'2022-03-23 23:26:33.073583-04','2022-03-24 22:31:32.540848-04'),
+	 ('f6586fa2-abb4-11ec-9d14-0f9b52a38323'::uuid,'35a27f4e-9f40-11ec-bbaa-bba14276ac27'::uuid,'My Billboard','Made by Me!','http://localhost:8000','{}','2022-03-24 16:57:05.704307-04','2022-03-24 22:31:32.586237-04'),
+	 ('808b27e2-abaf-11ec-8959-5fcd85608b96'::uuid,'35a27f4e-9f40-11ec-bbaa-bba14276ac27'::uuid,'My Billboard','Made by Me!','http://localhost:8000','{}','2022-03-24 16:18:00.586342-04','2022-03-24 22:31:32.626316-04');
