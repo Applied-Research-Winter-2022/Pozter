@@ -30,7 +30,26 @@ class DataService {
       return false;
     }
   }
+  async fetchScreenCanvasId(id) {
+    try {
+      const response = await http.dataApi.get(`/screen_canvas/id/${id}`);
+      return response.data[0];
+    } catch (e) {
+      console.error("Failed to fetch canvas - ", e);
+      return false;
+    }
+  }
+  async fetchScreenCanvases() {
+    try {
+      const response = await http.dataApi.get("/screen_canvases");
+      return response.data;
+    } catch (e) {
+      console.error("Failed to fetch canvases - ", e);
+      return false;
+    }
+  }
   // CREATE
+
   // UPDATE
   // DELETE
 }

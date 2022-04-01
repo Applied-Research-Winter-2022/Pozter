@@ -30,9 +30,7 @@
           </v-col>
           <v-col md="1" offset-md="1">
             <div>
-              <router-link to="/create/3">
-                <v-btn color="deep-orange lighten-1">Next</v-btn>
-              </router-link>
+              <v-btn @click="didClickNext" color="deep-orange lighten-1">Next</v-btn>
             </div>
           </v-col>
         </v-row>
@@ -61,11 +59,17 @@ export default {
   computed: {},
   methods: {
     directToScreen() {
-      alert(
-        `Label: ${this.selectedScreen.text}; Value: ${this.selectedScreen.value}`
-      );
+      alert(`Label: ${this.selectedScreen.text}; Value: ${this.selectedScreen.value}`);
       console.log("Label: ", this.selectedScreen.texy);
       console.log("Value: ", this.selectedScreen.value);
+    },
+    didClickNext() {
+      this.$router.push({
+        path: "3", // go to the next page
+        query: {
+          billboardId: this.$route.query.billboardId, // send the id chosen by the user to the next page
+        },
+      });
     },
   },
 };

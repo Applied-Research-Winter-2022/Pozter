@@ -9,10 +9,10 @@
             chips
             @change="onAddFile"
           />
-          <v-card v-if="didUploadImage === true">
+          <v-card v-if="didUploadImage === true && this.file">
             <v-card-text>
               <v-alert type="success">
-                File uploaded: {{ file.original_filename }} at {{ file.url }}
+                File uploaded: {{ this.file.original_filename }} at {{ this.file.url }}
               </v-alert>
             </v-card-text>
           </v-card>
@@ -36,9 +36,11 @@
           <v-row class="mb-6">
             <v-col md="4" offset-md="0">
               <div>
-                <router-link to="/create/2">
-                  <v-btn class="mx-3 deep-orange lighten-2">Create Another Screen</v-btn>
-                </router-link>
+                <!-- <router-link to="/create/2"> -->
+                <v-btn @click="didClickCAS" class="mx-3 deep-orange lighten-2"
+                  >Create Another Screen</v-btn
+                >
+                <!-- </router-link> -->
               </div>
             </v-col>
 
@@ -54,15 +56,18 @@
             </v-col>
             <v-col md="" offset-md="0">
               <div>
-                <router-link
+                <!-- <router-link
                   :disabled="!didUploadImage"
                   :event="didUploadImage ? 'click' : ''"
                   to="/create/4"
+                > -->
+                <v-btn
+                  @click="didClickSM"
+                  :disabled="!didUploadImage"
+                  color="deep-orange lighten-1"
+                  >Configure Social Media</v-btn
                 >
-                  <v-btn :disabled="!didUploadImage" color="deep-orange lighten-1"
-                    >Configure Social Media</v-btn
-                  >
-                </router-link>
+                <!-- </router-link> -->
               </div>
             </v-col>
           </v-row>
@@ -76,6 +81,7 @@
 <!-- JavaScript starts Here -->
 <script>
 // @ is an alias to /src
+
 import DataService from "../../../service/dataService";
 export default {
   name: "Step3UserContent",
@@ -94,15 +100,19 @@ export default {
   },
   async mounted() {
     await this.fetchBillboardId("814f8704-9462-11ec-abf7-9f7d873f0076");
-    await this.fetchBillboards();
+    await this.fetchCanvasId("ce24f656-9465-11ec-abf7-bf7c0434b03a");
+    console.log(this.$route.query);
   },
+
   computed: {},
   methods: {
     async fetchBillboardId(id) {
       this.billboard = await DataService.fetchBillboardId(id);
+      console.log(this.billboard);
     },
-    async fetchBillboards() {
-      this.billboards = await DataService.fetchBillboards();
+    async fetchCanvasId(id) {
+      this.canvas = await DataService.fetchScreenCanvasId(id);
+      console.log(this.canvas);
     },
     createImage(file) {
       const reader = new FileReader();
@@ -111,6 +121,22 @@ export default {
         this.previewUrl = e.target.result;
       };
       reader.readAsDataURL(file);
+    },
+    didClickCAS() {
+      this.$router.push({
+        path: "2", // go to the next page
+        query: {
+          billboardId: this.$route.query.billboardId, // send the id chosen by the user to the next page
+        },
+      });
+    },
+    didClickSM() {
+      this.$router.push({
+        path: "4", 
+        query: {
+          canvasId: this.canvas.id, 
+        },
+      });
     },
     onAddFile(file) {
       if (!file) {
