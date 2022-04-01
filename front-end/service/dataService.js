@@ -23,7 +23,6 @@ class DataService {
   async fetchUserBillboard(id) {
     try {
       const response = await http.dataApi.get(`/user_billboard/full/id/${id}`);
-      console.log(response);
       return response.data[0];
     } catch (e) {
       console.error("Failed to fetch billboard - ", e);
@@ -51,6 +50,15 @@ class DataService {
   async fetchScreenCanvases() {
     try {
       const response = await http.dataApi.get("/screen_canvases");
+      return response.data;
+    } catch (e) {
+      console.error("Failed to fetch canvases - ", e);
+      return false;
+    }
+  }
+  async fetchSocialMediaPosts() {
+    try {
+      const response = await http.dataApi.get("/social_media_posts");
       return response.data;
     } catch (e) {
       console.error("Failed to fetch canvases - ", e);
