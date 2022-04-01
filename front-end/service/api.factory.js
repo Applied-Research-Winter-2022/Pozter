@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let API_URL = "pozter-demo.herokuapp.com";
+let API_URL = "https://pozter-demo.herokuapp.com";
 if (window.location.hostname === "localhost") {
   API_URL = "http://localhost:8000";
 }

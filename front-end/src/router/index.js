@@ -49,7 +49,7 @@ const routes = [
     path: "/play/:id",
     name: "PlayerHome",
     component: PlayerHome,
-  }
+  },
 ];
 
 const router = new VueRouter({

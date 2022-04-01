@@ -12,7 +12,8 @@
           <v-card v-if="didUploadImage === true && this.file">
             <v-card-text>
               <v-alert type="success">
-                File uploaded: {{ this.file.original_filename }} at {{ this.file.url }}
+                File uploaded: {{ this.file.original_filename }} at
+                {{ this.file.url }}
               </v-alert>
             </v-card-text>
           </v-card>
@@ -132,9 +133,9 @@ export default {
     },
     didClickSM() {
       this.$router.push({
-        path: "4", 
+        path: "4",
         query: {
-          canvasId: this.canvas.id, 
+          canvasId: this.canvas.id,
         },
       });
     },

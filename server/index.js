@@ -2,12 +2,11 @@ const serveStatic = require("serve-static");
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const path = require("path");
+require("dotenv").config();
+
 app.use(express.json());
 app.use(cors());
-
-app.get("/", function (req, res) {
-  res.send("Hello World");
-});
 
 // Billboard
 app.use("/billboard/id", require("./routes/billboard/fetchById"));
@@ -32,9 +31,11 @@ app.use("/social_media_content/create", require("./routes/social_media_content/c
 app.use("/social_media_content/id", require("./routes/social_media_content/fetchById"));
 app.use("/social_media_content/user_billboard_id", require("./routes/social_media_content/fetchByUserBillboardId"));
 
+app.use("/", serveStatic(path.join(__dirname, "../front-end/dist")));
+
 // this * route is to serve project on different page routes except root `/`
 app.get(/.*/, function (req, res) {
-  res.sendFile(path.join(__dirname, "../webui/dist/index.html"));
+  res.sendFile(path.join(__dirname, "../front-end/dist/index.html"));
 });
 
 const PORT = process.env.PORT || 8000;
