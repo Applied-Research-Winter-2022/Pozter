@@ -30,7 +30,7 @@ app.use("/social_media_content/user_billboard_id", require("./routes/social_medi
 
 // this * route is to serve project on different page routes except root `/`
 app.get(/.*/, function (req, res) {
-  res.sendFile(path.join(__dirname, "../webui/dist/index.html"));
+  res.sendFile(path.join(__dirname, "../front-end/dist/index.html"));
 });
 
 const PORT = process.env.PORT || 8000;
