@@ -51,21 +51,14 @@ export default {
   },
   data() {
     return {
-      billboard: {},
       billboards: [],
     };
   },
   async mounted() {
-    await this.fetchBillboardId("814f8704-9462-11ec-abf7-9f7d873f0076");
-    console.log("billboard: " + JSON.stringify(this.billboard));
     await this.fetchBillboards();
-    console.log("billboards: " + JSON.stringify(this.billboards));
   },
   computed: {},
   methods: {
-    async fetchBillboardId(id) {
-      this.billboard = await DataService.fetchBillboardId(id);
-    },
     async fetchBillboards() {
       this.billboards = await DataService.fetchBillboards();
     },

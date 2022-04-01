@@ -30,6 +30,15 @@ class DataService {
       return false;
     }
   }
+  async fetchScreenCanvasByBillboardId(id) {
+    try {
+      const response = await http.dataApi.get(`/screen_canvas/id/billboard/${id}`);
+      return response.data;
+    } catch (e) {
+      console.error("Failed to fetch canvases - ", e);
+      return false;
+    }
+  }
   async fetchScreenCanvasId(id) {
     try {
       const response = await http.dataApi.get(`/screen_canvas/id/${id}`);
@@ -49,7 +58,45 @@ class DataService {
     }
   }
   // CREATE
-
+  async createUserScreen(params) {
+    try {
+      const response = await http.dataApi.request({
+        method: "post",
+        url: "/user_screen/create",
+        data: params,
+      });
+      return response;
+    } catch (e) {
+      console.error("Failed to create user screen - ", e);
+      return false;
+    }
+  }
+  async createUserBillboard(params) {
+    try {
+      const response = await http.dataApi.request({
+        method: "post",
+        url: "/user_billboard/create",
+        data: params,
+      });
+      return response;
+    } catch (e) {
+      console.error("Failed to create user billboard - ", e);
+      return false;
+    }
+  }
+  async createSocialMediaContent(params) {
+    try {
+      const response = await http.dataApi.request({
+        method: "post",
+        url: "/social_media_content/create",
+        data: params,
+      });
+      return response;
+    } catch (e) {
+      console.error("Failed to create user billboard - ", e);
+      return false;
+    }
+  }
   // UPDATE
   // DELETE
 }

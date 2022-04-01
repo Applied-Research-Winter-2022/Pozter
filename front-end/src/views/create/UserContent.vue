@@ -1,6 +1,9 @@
 <template>
   <div>
     <v-container>
+      <v-row v-if="screenCanvas !== null" class="pt-12 w-100 justify-content-center">
+        <ScreenCanvasPreview :name="screenCanvas.screen_canvases_name" :config="screenCanvas? screenCanvas.config : null" :image="previewUrl" />
+      </v-row>
       <v-row>
         <v-col>
           <v-file-input
@@ -8,87 +11,86 @@
             label="Upload a Screen Canvas"
             chips
             @change="onAddFile"
+            @click:clear="onClear"
           />
           <v-card v-if="didUploadImage === true && this.file">
             <v-card-text>
               <v-alert type="success">
-                File uploaded: {{ this.file.original_filename }} at
-                {{ this.file.url }}
+                User Screen created!  
               </v-alert>
             </v-card-text>
           </v-card>
-          <v-card v-if="previewUrl">
-            <v-card>
-              <v-responsive :aspect-ratio="16 / 9">
-                <v-img id="preview" class="ma-6" :src="previewUrl"></v-img>
-              </v-responsive>
-            </v-card>
-          </v-card>
-
           <v-alert v-if="isError">
             {{ errorText }}
           </v-alert>
         </v-col>
       </v-row>
       <!-- Buttons start -->
-      <v-flex xs12 pa-4>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-row class="mb-6">
-            <v-col md="4" offset-md="0">
-              <div>
-                <!-- <router-link to="/create/2"> -->
-                <v-btn @click="didClickCAS" class="mx-3 deep-orange lighten-2"
-                  >Create Another Screen</v-btn
-                >
-                <!-- </router-link> -->
+      <v-container pt-4>
+        <v-row class="w-100 justify-content-center">
+          <div>
+            <v-btn
+              :disabled="!isImageSelected || didUploadImage"
+              @click="createUserCanvas"
+              color="green lighten-2"
+              >
+              <span v-if="!isUploading">Create User Screen</span>
+              <div v-else class="spinner-border text-light" role="status">
+                <span class="sr-only">Loading...</span>
               </div>
-            </v-col>
-
-            <v-col md="2" offset-md="0">
-              <div>
-                <v-btn
-                  :disabled="!isImageSelected"
-                  @click="uploadFile"
-                  color="green lighten-2"
-                  >Upload</v-btn
-                >
-              </div>
-            </v-col>
-            <v-col md="" offset-md="0">
-              <div>
-                <!-- <router-link
-                  :disabled="!didUploadImage"
-                  :event="didUploadImage ? 'click' : ''"
-                  to="/create/4"
-                > -->
-                <v-btn
-                  @click="didClickSM"
-                  :disabled="!didUploadImage"
-                  color="deep-orange lighten-1"
-                  >Configure Social Media</v-btn
-                >
-                <!-- </router-link> -->
-              </div>
-            </v-col>
-          </v-row>
-          <!-- buttons end -->
-        </v-card-actions>
-      </v-flex>
+              </v-btn
+            >
+          </div>
+        </v-row>
+        <v-row class="mb-6 w-100 justify-content-center">
+          <v-col class="w-100 d-flex justify-content-center">
+            <div>
+              <!-- <router-link to="/create/2"> -->
+              <v-btn @click="didClickCAS" class="mx-3 deep-orange lighten-2"
+                :disabled="!didUploadImage"
+                >Create Another Screen</v-btn
+              >
+              <!-- </router-link> -->
+            </div>
+          </v-col>
+          <v-col class="d-flex justify-content-center">
+            <div>
+              <!-- <router-link
+                :disabled="!didUploadImage"
+                :event="didUploadImage ? 'click' : ''"
+                to="/create/4"
+              > -->
+              <v-btn
+                @click="didClickSM"
+                :disabled="!didUploadImage"
+                color="deep-orange lighten-1"
+                >Configure Social Media</v-btn
+              >
+              <!-- </router-link> -->
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-container>
   </div>
 </template>
 
 <!-- JavaScript starts Here -->
 <script>
-// @ is an alias to /src
-
 import DataService from "../../../service/dataService";
+import ScreenCanvasPreview from "../../components/ScreenCanvasPreview.vue";
+
 export default {
   name: "Step3UserContent",
+  components: {
+    ScreenCanvasPreview,
+  },
   props: {},
   data() {
     return {
+      screenCanvas: null,
+      userBillboardId: null,
+
       didUploadImage: false,
       isError: false,
       errorText: null,
@@ -100,20 +102,18 @@ export default {
     };
   },
   async mounted() {
-    await this.fetchBillboardId("814f8704-9462-11ec-abf7-9f7d873f0076");
-    await this.fetchCanvasId("ce24f656-9465-11ec-abf7-bf7c0434b03a");
-    console.log(this.$route.query);
-  },
+    this.billboardId = this.$route.query.billboardId;
+    this.userBillboardId = this.$route.query.userBillboardId;
 
-  computed: {},
+    const screenCanvasId = this.$route.query.screenCanvasId;
+    if (!screenCanvasId || !this.userBillboardId || !this.billboardId) {
+      this.$router.push("/");
+    }
+    await this.fetchCanvasId(screenCanvasId);
+  },
   methods: {
-    async fetchBillboardId(id) {
-      this.billboard = await DataService.fetchBillboardId(id);
-      console.log(this.billboard);
-    },
     async fetchCanvasId(id) {
-      this.canvas = await DataService.fetchScreenCanvasId(id);
-      console.log(this.canvas);
+      this.screenCanvas = await DataService.fetchScreenCanvasId(id);
     },
     createImage(file) {
       const reader = new FileReader();
@@ -128,6 +128,7 @@ export default {
         path: "2", // go to the next page
         query: {
           billboardId: this.$route.query.billboardId, // send the id chosen by the user to the next page
+          userBillboardId: this.$route.query.userBillboardId,
         },
       });
     },
@@ -135,9 +136,23 @@ export default {
       this.$router.push({
         path: "4",
         query: {
-          canvasId: this.canvas.id,
+          screenCanvasId: this.screenCanvas.id,
+          userBillboardId: this.userBillboardId,
         },
       });
+    },
+    reset() {
+      this.didUploadImage = false;
+      this.isError = false;
+      this.errorText = null;
+      this.previewUrl = null;
+      this.previewFile = null;
+      this.isUploading = false;
+      this.isImageSelected = false;
+      this.file = null;
+    },
+    onClear() {
+      this.reset();
     },
     onAddFile(file) {
       if (!file) {
@@ -148,11 +163,36 @@ export default {
       this.createImage(file);
       this.isImageSelected = true;
     },
+    async createUserCanvas() {
+      try {
+        this.isUploading = true;
+        // upload the image
+        let response = await this.uploadFileToCloudinary(this.previewFile);
+        this.file = response;
+        const imageUrl = this.file.url;
+
+        // create the user screen
+        const params = {
+          screen_canvas_id: this.screenCanvas.id,
+          user_billboard_id: this.userBillboardId,
+          user_screen_name: "some name",
+          description: "some description",
+          config: {
+            "type": "image",
+            "asset": imageUrl,
+            "width": "100%",
+            "height": "100%"
+          },
+        };
+        response = await DataService.createUserScreen(params);
+        console.log(response);
+      } catch (e) {
+        console.log(e);
+      }
+      this.isUploading = false;
+    },
     uploadFile() {
-      // this.isUploading = true;
-      this.uploadFileToCloudinary(this.previewFile).then((fileResponse) => {
-        this.file = fileResponse;
-      });
+      return this.uploadFileToCloudinary(this.previewFile);
     },
     uploadFileToCloudinary(file) {
       return new Promise((resolve, reject) => {
