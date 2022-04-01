@@ -12,9 +12,7 @@
           Your billboard was created successfully. It can be viewed at:
         </p>
         <strong class="d-flex justify-center">
-          <a :href="userBillboardUrl"
-            >http://localhost:8080/play/{{ userBillboardId }}</a
-          >
+          <a :href="userBillboardUrl">{{ userBillboardUrl }}</a>
         </strong>
       </v-col>
     </v-row>
@@ -32,7 +30,11 @@ export default {
   },
   computed: {
     userBillboardUrl() {
-      return "http://localhost:8080/play/" + this.userBillboardId;
+      if (process.env.NODE_ENV === "production") {
+        return "https://pozter-demo.herokuapp.com/play/" + this.userBillboardId;
+      } else {
+        return "http://localhost:8080/play/" + this.userBillboardId;
+      }
     },
   },
   methods: {},
