@@ -1,7 +1,7 @@
 <template>
   <div
     :style="styles"
-    style="position: absolute; background-color: rgba(255, 255, 255, 0.5);"
+    style="position: absolute; background-color: rgba(255, 255, 255, 0.5)"
   >
     <SocialMediaPost :socialMediaPost="socialMediaPost" />
   </div>

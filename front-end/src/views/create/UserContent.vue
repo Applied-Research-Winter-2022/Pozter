@@ -37,7 +37,9 @@
             <v-col md="4" offset-md="0">
               <div>
                 <router-link to="/create/2">
-                  <v-btn class="mx-3 deep-orange lighten-2">Create Another Screen</v-btn>
+                  <v-btn class="mx-3 deep-orange lighten-2"
+                    >Create Another Screen</v-btn
+                  >
                 </router-link>
               </div>
             </v-col>
@@ -59,7 +61,9 @@
                   :event="didUploadImage ? 'click' : ''"
                   to="/create/4"
                 >
-                  <v-btn :disabled="!didUploadImage" color="deep-orange lighten-1"
+                  <v-btn
+                    :disabled="!didUploadImage"
+                    color="deep-orange lighten-1"
                     >Configure Social Media</v-btn
                   >
                 </router-link>

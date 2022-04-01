@@ -1,11 +1,7 @@
 <template>
-  <div style="font-size: 120pt;">
-    <div style="padding-left: 2.5%">
-      "{{ content }}""
-    </div>
-    <div style="padding-left: 5%;">
-      - {{ user }}
-    </div>
+  <div style="font-size: 120pt">
+    <div style="padding-left: 2.5%">"{{ content }}""</div>
+    <div style="padding-left: 5%">- {{ user }}</div>
   </div>
 </template>
 
@@ -30,7 +26,7 @@ export default {
         return this.socialMediaPost.content.content;
       }
       return "";
-    }
+    },
   },
   methods: {},
 };

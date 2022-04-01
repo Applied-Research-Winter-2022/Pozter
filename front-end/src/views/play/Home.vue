@@ -24,7 +24,7 @@ export default {
       screenCanvases: {},
       userScreens: [],
       socialMediaPosts: [],
-      
+
       socket: null,
 
       screenInterval: null,
@@ -99,21 +99,23 @@ export default {
       }
     },
     handleSocialMediaNext() {
-      if (this.currentSocialMediaPostIndex === this.socialMediaPosts.length - 1) {
+      if (
+        this.currentSocialMediaPostIndex ===
+        this.socialMediaPosts.length - 1
+      ) {
         this.currentSocialMediaPostIndex = 0;
       } else {
         this.currentSocialMediaPostIndex++;
       }
-    }
+    },
   },
   destroyed() {
     this.socket.disconnect();
-    
+
     clearInterval(this.screenInterval);
     clearInterval(this.postInterval);
   },
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
