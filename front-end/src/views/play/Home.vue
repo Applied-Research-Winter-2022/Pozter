@@ -30,7 +30,7 @@ export default {
       screenInterval: null,
       postInterval: null,
 
-      currentUserScreenIndex: 2,
+      currentUserScreenIndex: 0,
       currentSocialMediaPostIndex: 0,
     };
   },
@@ -55,6 +55,9 @@ export default {
 
     //  - social media posts
     this.socialMediaPosts = config.social_media_content[0].social_media_posts;
+    if (this.socialMediaPosts.length === 0) {
+      this.socialMediaPosts = await DataService.fetchSocialMediaPosts();
+    }
 
     // Set up sockets
     this.socket = io(this.userBillboard.socketurl);

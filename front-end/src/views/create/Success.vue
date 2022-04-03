@@ -16,6 +16,12 @@
         </strong>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col class="text-center">
+        To view a complete example with Social Media Posts that are hard-coded into the database:<br>
+        <a :href="completeExampleUrl">{{ completeExampleUrl }}</a>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -25,8 +31,14 @@ export default {
   props: {},
   data() {
     return {
-      userBillboardId: "d12cb650-9f40-11ec-bbaa-6fe27c042acc",
+      userBillboardId: null,
     };
+  },
+  mounted() {
+    this.userBillboardId = this.$route.query.userBillboardId;
+    if (!this.userBillboardId) {
+      this.$router.push("/");
+    }
   },
   computed: {
     userBillboardUrl() {
@@ -34,6 +46,13 @@ export default {
         return "https://pozter-demo.herokuapp.com/play/" + this.userBillboardId;
       } else {
         return "http://localhost:8080/play/" + this.userBillboardId;
+      }
+    },
+    completeExampleUrl() {
+      if (process.env.NODE_ENV === "production") {
+        return "https://pozter-demo.herokuapp.com/play/d12cb650-9f40-11ec-bbaa-6fe27c042acc";
+      } else {
+        return "http://localhost:8080/play/d12cb650-9f40-11ec-bbaa-6fe27c042acc";
       }
     },
   },

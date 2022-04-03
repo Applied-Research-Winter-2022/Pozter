@@ -12,6 +12,7 @@ const createSchema = Joi.object().keys({
 module.exports = {
   async create({ user_id, user_billboard_name, description, socket_url, config }) {
     const validation = createSchema.validate({ user_id, user_billboard_name, description, socket_url, config });
+    console.log("hit");
     if (validation.error) {
       console.error(validation.error);
       return validation.error;
