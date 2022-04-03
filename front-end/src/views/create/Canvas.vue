@@ -1,10 +1,13 @@
 <template>
   <v-container>
+    <v-row v-if="selectedScreen !== null" class="pt-12 w-100 justify-content-center">
+      <ScreenCanvasPreview :name="selectedScreen.text" :config="selectedScreen? selectedScreen.config : null" />
+    </v-row>
     <v-row>
       <v-flex>
         <div class="screens pa-12">
           <v-row>
-            <v-col md="12" sm="6">
+            <v-col>
               <v-select
                 v-model="selectedScreen"
                 :items="screens"
@@ -30,9 +33,7 @@
           </v-col>
           <v-col md="1" offset-md="1">
             <div>
-              <router-link to="/create/3">
-                <v-btn color="deep-orange lighten-1">Next</v-btn>
-              </router-link>
+              <v-btn @click="didClickNext" color="deep-orange lighten-1" :disabled="selectedScreen === null">Next</v-btn>
             </div>
           </v-col>
         </v-row>
@@ -42,30 +43,78 @@
 </template>
 
 <script>
+import DataService from "../../../service/dataService";
+import ScreenCanvasPreview from "../../components/ScreenCanvasPreview.vue";
+
 export default {
   name: "Step2Canvas",
+  components: {
+    ScreenCanvasPreview
+  },
   props: {},
   data() {
     return {
-      screens: [
-        { text: "One Screen Canvas", value: "oneScreen" },
-        { text: "Three Screens Canvas", value: "threeScreens" },
-      ],
+      screens: [],
       selectedScreen: null,
+
+      billboardId: null,
+      userBillboardId: null,
     };
   },
-  mounted() {
-    console.log(this.$route.query);
-    // from this.$route.query, we can get billboardId. using the DataService we can get all hte screen canvases associated with that billboardId
+  async mounted() {
+    this.billboardId = this.$route.query.billboardId;
+    this.userBillboardId = this.$route.query.userBillboardId;
+
+    // if there's no billboard Id in the router query => push them to home page
+    if (!this.billboardId) {
+      this.$router.push("/");
+    }
+    this.screens = await DataService.fetchScreenCanvasByBillboardId(this.billboardId);
+
+    // add text and value fields to make the objects palatable to the select list
+    this.screens.map(s => {
+      s.text = s.screen_canvases_name;
+      s.value = s.id;
+      return s;
+    });
+
+    // sort the names alphabetically
+    this.screens.sort((a, b) => {
+      if (a.text > b.text) {
+        return 1;
+      } else if (a.text < b.text) {
+        return -1;
+      }
+      return 0;
+    });
   },
-  computed: {},
+  computed: {
+    
+  },
   methods: {
     directToScreen() {
-      alert(
-        `Label: ${this.selectedScreen.text}; Value: ${this.selectedScreen.value}`
-      );
-      console.log("Label: ", this.selectedScreen.texy);
-      console.log("Value: ", this.selectedScreen.value);
+      alert(`Label: ${this.selectedScreen.text}; Value: ${this.selectedScreen.value}`);
+    },
+    async didClickNext() {
+      if (!this.userBillboardId) {
+        const params = {
+          user_id: "35a27f4e-9f40-11ec-bbaa-bba14276ac27",
+          user_billboard_name: "New - " + Date.now(),
+          description: "some description",
+          socket_url: "something",
+          config: {},
+        };
+        const res = await DataService.createUserBillboard(params);
+        this.userBillboardId = res.data[0].id;
+      }
+      this.$router.push({
+        path: "3", // go to the next page
+        query: {
+          billboardId: this.billboardId,
+          screenCanvasId: this.selectedScreen.id, // send the screen canvas id chosen by the user to the next page
+          userBillboardId: this.userBillboardId,
+        },
+      });
     },
   },
 };

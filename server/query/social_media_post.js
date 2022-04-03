@@ -34,12 +34,12 @@ module.exports = {
       return validation.error;
     } else {
       const socialMediaPost = await db.query(`SELECT * FROM social_media_posts WHERE id = '${id}'`);
-      return socialMediaPost;
+      return socialMediaPost.rows;
     }
   },
 
   async fetchAll() {
     const socialMediaPosts = await db.query(`SELECT * FROM social_media_posts`);
-    return socialMediaPosts;
+    return socialMediaPosts.rows;
   },
 };

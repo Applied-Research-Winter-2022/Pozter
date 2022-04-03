@@ -1,19 +1,19 @@
+const serveStatic = require("serve-static");
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const path = require("path");
+require("dotenv").config();
 
 app.use(express.json());
 app.use(cors());
-
-app.get("/", function (req, res) {
-  res.send("Hello World");
-});
 
 // Billboard
 app.use("/billboard/id", require("./routes/billboard/fetchById"));
 app.use("/billboards", require("./routes/billboard/fetchAll"));
 // Screen Canvases
 app.use("/screen_canvas/id", require("./routes/screen_canvas/fetchById"));
+app.use("/screen_canvas/id/billboard", require("./routes/screen_canvas/fetchByBillboardId"));
 app.use("/screen_canvases", require("./routes/screen_canvas/fetchAll"));
 // User Screens
 app.use("/user_screen/create", require("./routes/user_screen/create"));
@@ -60,6 +60,11 @@ io.on("connection", function (socket) {
       io.to(socket.id).emit("areHighest");
     }
   });
+app.use("/", serveStatic(path.join(__dirname, "../front-end/dist")));
+
+// this * route is to serve project on different page routes except root `/`
+app.get(/.*/, function (req, res) {
+  res.sendFile(path.join(__dirname, "../front-end/dist/index.html"));
 });
 
 const PORT = process.env.PORT || 8000;

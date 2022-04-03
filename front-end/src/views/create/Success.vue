@@ -12,10 +12,14 @@
           Your billboard was created successfully. It can be viewed at:
         </p>
         <strong class="d-flex justify-center">
-          <a :href="userBillboardUrl"
-            >http://localhost:8080/Play/{{ userBillboardId }}</a
-          >
+          <a :href="userBillboardUrl">{{ userBillboardUrl }}</a>
         </strong>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col class="text-center">
+        To view a complete example with Social Media Posts that are hard-coded into the database:<br>
+        <a :href="completeExampleUrl">{{ completeExampleUrl }}</a>
       </v-col>
     </v-row>
   </v-container>
@@ -27,12 +31,29 @@ export default {
   props: {},
   data() {
     return {
-      userBillboardId: "129879078-a09s8da9-1230987",
+      userBillboardId: null,
     };
+  },
+  mounted() {
+    this.userBillboardId = this.$route.query.userBillboardId;
+    if (!this.userBillboardId) {
+      this.$router.push("/");
+    }
   },
   computed: {
     userBillboardUrl() {
-      return "http://localhost:8080/Play/" + this.userBillboardId;
+      if (process.env.NODE_ENV === "production") {
+        return "https://pozter-demo.herokuapp.com/play/" + this.userBillboardId;
+      } else {
+        return "http://localhost:8080/play/" + this.userBillboardId;
+      }
+    },
+    completeExampleUrl() {
+      if (process.env.NODE_ENV === "production") {
+        return "https://pozter-demo.herokuapp.com/play/d12cb650-9f40-11ec-bbaa-6fe27c042acc";
+      } else {
+        return "http://localhost:8080/play/d12cb650-9f40-11ec-bbaa-6fe27c042acc";
+      }
     },
   },
   methods: {},

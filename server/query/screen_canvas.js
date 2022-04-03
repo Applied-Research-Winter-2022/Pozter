@@ -17,6 +17,17 @@ module.exports = {
     }
   },
 
+  async fetchByBillboardId(id) {
+    const validation = idSchema.validate({ id });
+    if (validation.error) {
+      console.error(validation.error);
+      return validation.error;
+    } else {
+      const screenCanvas = await db.query(`SELECT * FROM screen_canvases WHERE billboard_id = '${id}'`);
+      return screenCanvas.rows;
+    }
+  },
+
   async fetchAll() {
     const screenCanvases = await db.query(`SELECT * FROM screen_canvases`);
     return screenCanvases;

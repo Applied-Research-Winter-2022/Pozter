@@ -1,0 +1,2 @@
+INSERT INTO public.billboards (id,billboard_name,owner_id,created_at,updated_at,venue) VALUES
+	 ('814f8704-9462-11ec-abf7-9f7d873f0076'::uuid,'Billboard Sample','698655c2-9461-11ec-abf7-ff4ef606fab1'::uuid,'2022-02-22 23:38:53.881631-05','2022-03-24 19:07:32.67989-04','Greater Toronto Digital');
